@@ -1,38 +1,35 @@
-# Data Safety — Foldly (com.paper.folding.foldly)
+# Data Safety — Foldly (com.paper.folding.foldly) · nguồn: compliance_census.md §3/§5/§10c · file import: `data_safety.csv`
 
-Nguồn: manifest + gradle audit (xem CONTENT_READY.md). Dùng để điền Play Console > Data safety.
+Cách nạp: Play Console → App content → Data safety → **Import CSV** (`blueprint/aso/data_safety.csv`; chỉ cột *Response value* được điền, ID/thứ tự dòng giữ nguyên template `instructions/aso/data_safety_template.csv`, 782 dòng, 38 dòng có giá trị).
 
-## Khai báo chung
-- Thu thập hoặc chia sẻ dữ liệu người dùng bắt buộc: **Yes**
-- Mã hoá dữ liệu khi truyền: **Yes** (HTTPS/TLS qua SDK)
-- Cho phép người dùng yêu cầu xoá dữ liệu: **Yes** (dữ liệu local: xoá storage/gỡ app; dữ liệu SDK: liên hệ christensenviviana605730@gmail.com; không có tài khoản)
-- Tài khoản: **Không có** — không cần Account deletion URL (app không tạo tài khoản)
-- Mua hàng trong app: **Không** (v1 frictionless; BILLING chỉ là hạ tầng thư viện, không có SKU bán)
-- Nhắm trẻ em: **Không** (không phải app Families; target age 13+)
+## Câu top-level
+| Câu | Khai | Bằng chứng |
+|---|---|---|
+| Collects/shares required user data types | **true** | SDK Firebase/Adjust/Meta/TikTok/AdMob gửi dữ liệu rời máy (build.gradle.kts + libs.versions.toml) |
+| Encrypted in transit | **true** | Firebase/AdMob/CDN đều HTTPS/TLS (Privacy §7) |
+| Account creation | **None** (`PSL_ACM_NONE`) | grep `FirebaseAuth\|signIn\|GoogleSignIn` trong app/src = 0 |
+| Data deletion by user | **Yes** + URL `https://jfm-corp-s-a-s.github.io/foldly/privacy/` | Privacy §9: yêu cầu xoá qua email + xoá local bằng clear storage. **TODO người dùng:** nếu Console đòi URL trang chuyên biệt thì đổi; hoặc chọn "No" (app không có tài khoản) — hai phương án đều hợp lệ, chọn theo chính sách nội bộ |
 
-## Bảng dữ liệu
-
-| Loại dữ liệu (Play) | Thu thập | Chia sẻ | Bắt buộc/tuỳ chọn | Mục đích | Nguồn |
+## Data type đã khai (mọi mục: user control = **Required**, ephemeral = **No**)
+| Data type | Collected | Shared | Purpose (collected) | Purpose (shared) | Bằng chứng / SDK |
 |---|---|---|---|---|---|
-| Device or other IDs — Advertising ID | Có | Có (AdMob, mediation, attribution) | Bắt buộc (với app có ads) | Advertising or marketing; Analytics; Fraud prevention | AD_ID permission, module-ads, Adjust/Meta/TikTok SDK |
-| App activity — App interactions | Có | Có (Google/Firebase, ad/attribution) | Bắt buộc | Analytics; Advertising or marketing; App functionality | Firebase Analytics (Telemetry.kt), ad SDK |
-| App info and performance — Crash logs | Có | Có (Google/Firebase) | Bắt buộc | Analytics (diagnostics) | Firebase Crashlytics |
-| App info and performance — Diagnostics | Có | Có (Google/Firebase, ad SDK) | Bắt buộc | Analytics; App functionality | Firebase Crashlytics / Performance của ads SDK |
-| Device or other IDs — Firebase installation ID / push token | Có | Có (Google) | Bắt buộc | Analytics; App functionality (push) | Firebase Analytics, FCM |
-| Location — Approximate location | Có (suy ra từ IP bởi SDK; app KHÔNG xin quyền vị trí) | Có (ad SDK) | Bắt buộc | Advertising or marketing; Analytics | Ad SDK / Firebase (IP-derived) |
-| Photos and videos | **Không** thu thập (ảnh chụp camera lưu local, không rời máy; chỉ chia sẻ khi người dùng chủ động share) | Không | — | — | CameraX, filesDir/creations |
-| Personal info (tên, email, số điện thoại, địa chỉ) | **Không** | Không | — | — | Không có login/tài khoản |
-| Financial info / Purchases | **Không** | Không | — | — | Không IAP |
-| Contacts, Messages, Audio, Files, Health, Web browsing | **Không** | Không | — | — | — |
+| App activity → App interactions | ✔ | ✔ | Analytics | Analytics, Advertising | Firebase Analytics (collected); Adjust/Meta/TikTok attribution + ad SDK nhận event (shared) — Privacy §2.1 "App interactions", §4 |
+| App info & performance → Crash logs | ✔ | — | App functionality, Analytics | — | Firebase Crashlytics (Google xử lý nhân danh dev ⇒ không "shared") |
+| App info & performance → Diagnostics | ✔ | — | App functionality, Analytics | — | Crashlytics + Firebase Performance-type metrics; Privacy §2.1 |
+| Device or other IDs | ✔ | ✔ | App functionality, Analytics, Advertising | Analytics, Advertising | Advertising ID (`com.google.android.gms.permission.AD_ID`, `ACCESS_ADSERVICES_AD_ID`), Firebase installation ID + FCM token (functionality), ad mediation/attribution (shared) |
+| Location → Approximate location | ✔ | ✔ | Analytics, Advertising | Advertising | IP-derived country/region level (Privacy §2.1 dòng 2) — ad SDK + Firebase |
 
-## Ghi chú xử lý data
-- Dữ liệu chỉ ở máy (không phải "collected" theo định nghĩa Play): favourites, progress, completed, wallet(coin), game, creations (ảnh), reminder, settings (DataStore + filesDir).
-- Ảnh camera/gallery: xử lý trên máy (cacheDir/filesDir). Không upload.
-- Nội dung origami tải từ CDN (CDN host của nội dung): app chỉ gửi request GET tiêu chuẩn (IP bị CDN nhìn thấy).
-- UMP consent (Google) chạy trước quảng cáo cho EEA/UK.
-- Phần "chia sẻ" Advertising ID: Play coi chuyển sang service provider xử lý thay mặt (analytics/crash) là không "share", nhưng ads/attribution là "share" — khai là Có để an toàn.
+## KHÔNG khai (có lý do — tránh over-declare)
+- Photos/Videos: ảnh camera xử lý + lưu **on-device**, share qua Android share sheet do user chủ động; app KHÔNG có backend upload (grep endpoint upload = 0) ⇒ không "collect".
+- Name/Email/Phone/User IDs/Contacts/Financial/Purchase history/Health/Messages/Search history/Installed apps: không có (census §3-§4, manifest không có `QUERY_ALL_PACKAGES`, billing chỉ cờ ad-free).
+- Files and docs: chỉ đọc item user chọn từ gallery qua picker, không upload.
 
-## Quyền (manifest) → ghi chú Play
-- AD_ID: khai "Yes" ở mục Advertising ID trong App content.
-- CAMERA, POST_NOTIFICATIONS: runtime, tuỳ chọn.
-- RECEIVE_BOOT_COMPLETED, VIBRATE, BILLING, ACCESS_ADSERVICES_*: hạ tầng.
+## Đối chiếu Data Safety ↔ Privacy Policy ↔ Listing (Play cross-check)
+- Privacy §2.1 liệt kê: Advertising ID/IDs ✔ · IP + approx location ✔ · device & app info (⇒ Diagnostics/Other app performance; đã khai Diagnostics) ✔ · app interactions ✔ · crash logs & diagnostics ✔ · Firebase installation ID + push token (Device IDs) ✔ · install/attribution ✔ ⇒ **KHỚP**.
+- Privacy §2.2/§2.3: dữ liệu local + ảnh on-device, không upload ⇒ khớp việc không khai Photos ✔.
+- Privacy §11 not directed to children <13 ⇒ Target audience = 13+ (KHÔNG Families). Listing không nói "kids" ✔.
+- Listing nêu "Foldly contains ads", "No account", "Photos you take stay on your device" ⇒ nhất quán ✔.
+- Lệch nhỏ (không chặn, khuyến nghị sửa Privacy): bảng Permissions §3 chưa liệt `READ_BASIC_PHONE_STATE`, `ACCESS_ADSERVICES_TOPICS/CUSTOM_AUDIENCE`, `WAKE_LOCK`, `FOREGROUND_SERVICE` có trong merged manifest.
+
+## Việc người dùng làm trong Console
+1. Import CSV, rà lại bảng xem Console hiển thị đúng 5 data type ở trên. 2. Ads declaration = **Contains ads**. 3. Target audience **13+**. 4. Content rating questionnaire — trả lời trung thực mục "weapons" (xem census §10a).
