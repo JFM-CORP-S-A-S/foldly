@@ -1,59 +1,198 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ASO Assets — Foldly (05f)</title>
 <style>
-:root { --bg:#fff; --fg:#1a1a2e; --card:#f8f9fa; --border:#e0e0e0; --accent:#2563eb; --badge:#e8f0fe; --badge-fg:#1a56db; }
-@media(prefers-color-scheme:dark) {
-  :root { --bg:#1a1a2e; --fg:#e0e0e0; --card:#16213e; --border:#2a2a4a; --accent:#60a5fa; --badge:#1e3a5f; --badge-fg:#93c5fd; }
+
+:root {
+  --bg: #F4F7FB; --card: #FFFFFF; --border: #D4DEEA; --text: #0F1E33;
+  --sub: #44566E; --primary: #1763D6; --accent: #0E7C91; --green: #1A8754;
+  --red: #D43B2F; --radius: 14px; --gold: #B8860B;
 }
-*{ box-sizing:border-box; margin:0; padding:0; }
-body { font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--fg); padding:16px; max-width:720px; margin:0 auto; }
-h1 { font-size:1.4em; margin-bottom:4px; }
-.sub { font-size:.85em; opacity:.7; margin-bottom:24px; }
-section { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:16px; }
-h2 { font-size:1.05em; margin-bottom:12px; }
-.item { padding:6px 0; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.item + .item { border-top:1px solid var(--border); }
-.label { font-weight:600; min-width:160px; }
-.img-item img { border-radius:8px; border:1px solid var(--border); }
-a { color:var(--accent); text-decoration:none; word-break:break-all; }
-a:hover { text-decoration:underline; }
-.badge { display:inline-block; background:var(--badge); color:var(--badge-fg); font-size:.75em; padding:2px 8px; border-radius:10px; font-weight:600; }
-footer { text-align:center; font-size:.8em; opacity:.5; margin-top:32px; padding-top:12px; border-top:1px solid var(--border); }
+@media(prefers-color-scheme:dark) {
+  :root {
+    --bg: #0F1E33; --card: #1A2D47; --border: #2A3F5A; --text: #D4DEEA;
+    --sub: #8FA3BD; --primary: #60A5FA; --accent: #34D3A5; --green: #34D399;
+    --red: #F87171; --gold: #FBBF24;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 24px 16px 56px; max-width: 900px; margin: 0 auto; line-height: 1.6; }
+h1 { font-size: 1.5rem; margin-bottom: 4px; color: var(--text); }
+.sub { color: var(--sub); font-size: .85rem; margin-bottom: 24px; }
+.sub code { background: color-mix(in srgb, var(--primary) 12%, transparent); padding: 2px 8px; border-radius: 5px; font-size: .8rem; color: var(--primary); font-weight: 600; }
+section { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+section h2 { font-size: 1.05rem; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td { padding: 8px 0; vertical-align: top; border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent); font-size: .9rem; }
+td:first-child { color: var(--sub); width: 180px; font-size: .82rem; font-weight: 500; }
+td:last-child { word-break: break-word; }
+tr:last-child td { border-bottom: none; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.badge { display: inline-block; font-size: .68rem; padding: 2px 8px; border-radius: 6px; font-weight: 600; vertical-align: middle; margin-left: 6px; }
+.live { background: #E8F5EE; color: var(--green); }
+.file { background: color-mix(in srgb, var(--primary) 10%, transparent); color: var(--sub); }
+.vid { background: #E3F6FA; color: var(--accent); }
+.build { background: #FFF8E7; color: var(--gold); }
+.preview { display: inline-block; max-width: 48px; max-height: 48px; border-radius: 10px; vertical-align: middle; margin-right: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+.header-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.header-row img { width: 72px; height: 72px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+.text-block { background: color-mix(in srgb, var(--bg) 80%, var(--card)); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: .85rem; white-space: pre-wrap; line-height: 1.55; max-height: 300px; overflow-y: auto; margin: 8px 0; color: var(--text); }
+.text-block.short { max-height: none; font-size: .95rem; font-weight: 500; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.tag { background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); border-radius: 999px; padding: 4px 12px; font-size: .78rem; font-weight: 500; }
+.screenshots { display: flex; gap: 10px; overflow-x: auto; padding: 8px 0; }
+.screenshots img { height: 280px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08); flex-shrink: 0; }
+.feature-img { width: 100%; max-width: 600px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.08); margin: 8px 0; }
+.copy-btn { background: color-mix(in srgb, var(--primary) 10%, transparent); border: 1px solid var(--border); color: var(--primary); font-size: .72rem; padding: 3px 10px; border-radius: 6px; cursor: pointer; margin-left: 8px; font-weight: 600; }
+.copy-btn:hover { background: color-mix(in srgb, var(--primary) 20%, transparent); }
+.char-count { color: var(--sub); font-size: .75rem; font-weight: 400; }
+footer { text-align: center; color: var(--sub); font-size: .75rem; margin-top: 32px; }
+@media(max-width:600px) { td:first-child { width: 110px; } .screenshots img { height: 200px; } }
+
 </style>
 </head>
 <body>
-<h1>📦 ASO Assets — Foldly</h1>
-<p class="sub">App <code>05f</code> · Store <code>a019</code> None · Package <code>com.jfm.fodly.origami</code></p>
-<section><h2>📋 Hướng dẫn Submit</h2><div class="item"><span class="label">ASO Guide</span><a href="aso-guide.md">aso-guide.md</a> <span class="badge">3 KB</span> <span class="badge">MD</span></div>
-<div class="item"><span class="label">Landing Page</span><a href="landing.html">landing.html</a> <span class="badge">395 KB</span> <span class="badge">HTML</span></div>
+
+<div class="header-row">
+  <img src="icon_512.png" alt="Foldly icon">
+  <div>
+    <h1>Foldly</h1>
+    <p class="sub">App <code>05f</code> &middot; Store <code>a019</code> None &middot; <code>com.jfm.fodly.origami</code></p>
+  </div>
+</div>
+<section>
+<h2>Title <span class="char-count">(28/30)</span> <button class="copy-btn" onclick="copy('title-text')">Copy</button></h2>
+<div id="title-text" class="text-block short">Foldly: Origami Step by Step</div>
 </section>
-<section><h2>⬇ Downloads BUILD</h2><div class="item"><span class="label">APK debug</span><a href="downloads/app-prod-debug.apk" download>downloads/app-prod-debug.apk</a> <span class="badge">69.0 MB</span> <span class="badge">69.0 MB</span></div>
-<div class="item"><span class="label">AAB release</span><a href="downloads/app-prod-release.aab" download>downloads/app-prod-release.aab</a> <span class="badge">37.4 MB</span> <span class="badge">37.4 MB</span></div>
-<div class="item"><span class="label">APK release</span><a href="downloads/app-prod-release.apk" download>downloads/app-prod-release.apk</a> <span class="badge">30.4 MB</span> <span class="badge">30.4 MB</span></div>
+<section>
+<h2>Short Description <span class="char-count">(77/80)</span> <button class="copy-btn" onclick="copy('short-description-text')">Copy</button></h2>
+<div id="short-description-text" class="text-block short">Learn origami step by step, with video clips on 50+ models. Every guide open.</div>
 </section>
-<section><h2>⚖ Legal LIVE</h2><div class="item"><span class="label">Privacy Policy</span><a href="privacy">privacy</a></div>
-<div class="item"><span class="label">Terms of Service</span><a href="terms">terms</a></div>
-<div class="item"><span class="label">Privacy (source)</span><a href="privacy.md">privacy.md</a> <span class="badge">9 KB</span></div>
-<div class="item"><span class="label">Terms (source)</span><a href="terms.md">terms.md</a> <span class="badge">5 KB</span></div>
+<section>
+<h2>Full Description <span class="char-count">(2357/4000)</span> <button class="copy-btn" onclick="copy('full-description-text')">Copy</button></h2>
+<div id="full-description-text" class="text-block">Stuck on a fold? Watch it.
+
+Foldly teaches paper folding one step at a time. Pick a model, follow the clear step-by-step diagrams, and when a fold gets tricky tap &quot;Watch this step&quot; to see a short video clip of exactly that step - no scrubbing through a long tutorial. Step clips are available on 50+ models.
+
+WHAT YOU CAN FOLD
+• 140+ guides: origami, kirigami (paper cutting) and 3D origami
+• Animals, flowers, fruit, dinosaurs, insects, vehicles, toys, snowflakes, boxes and more
+• Easy, medium and hard models, with the number of steps and folding time shown up front
+• Search, filters and favourites to find your next fold
+• Every guide is open from the start - you never have to watch an ad or spend coins to unlock a model
+
+STEP BY STEP, AT YOUR PACE
+• One fold per screen, with fold arrows and dashed fold lines
+• Jump to any step from the step strip; your progress is saved so you can pick up where you stopped
+• Replay a step&#x27;s video clip in one tap (on models with clips)
+• A quick guide to the basic folds, built into the folding screen
+
+MINI FOLD - A PAPER PUZZLE GAME
+Swipe or tap to fold a sheet of paper and reveal a hidden picture, level after level. Coins are earned by playing and unlock paper themes inside the game. Coins are virtual and cannot be bought with real money.
+
+SHOW OFF YOUR FOLDS
+Finished a model? Take a photo of it with the camera (optional - or pick one from your gallery). Your photos are saved on your device in Creations, where you can browse them and share them with friends.
+
+MORE
+• Optional daily folding reminder
+• Available in 12 languages: English, Arabic, German, Spanish, French, Hindi, Japanese, Korean, Portuguese, Russian, Vietnamese and Chinese
+• No account and no sign-up needed
+
+GOOD TO KNOW
+• Free to download. Foldly contains ads.
+• Folding guides (images and videos) are provided in the app and loaded from our servers, so an internet connection is needed to load guides and ads.
+• The camera and notification permissions are optional and only used for the features described above. Photos you take stay on your device.
+• Kirigami involves cutting paper with scissors - please be careful and supervise young children.
+
+Questions or feedback? christensenviviana605730@gmail.com
+Privacy Policy: https://jfm-corp-s-a-s.github.io/foldly/privacy/
+Terms of Use: https://jfm-corp-s-a-s.github.io/foldly/terms/</div>
 </section>
-<section><h2>🖼 Asset thị giác</h2><div class="item img-item"><span class="label">Icon 512×512</span><img src="icon_512.png" width="64" loading="lazy"> <a href="icon_512.png" download>icon_512.png</a> <span class="badge">231 KB</span></div>
-<div class="item img-item"><span class="label">Feature Graphic 1024×500</span><a href="feature_graphic.png" download>feature_graphic.png</a> <span class="badge">399 KB</span></div>
-<div class="item"><span class="label">Screenshot 01</span><a href="screenshots/01.png" download>screenshots/01.png</a> <span class="badge">3.7 MB</span></div>
-<div class="item"><span class="label">Screenshot 02</span><a href="screenshots/02.png" download>screenshots/02.png</a> <span class="badge">3.0 MB</span></div>
-<div class="item"><span class="label">Screenshot 03</span><a href="screenshots/03.png" download>screenshots/03.png</a> <span class="badge">3.8 MB</span></div>
-<div class="item"><span class="label">Screenshot 04</span><a href="screenshots/04.png" download>screenshots/04.png</a> <span class="badge">3.7 MB</span></div>
-<div class="item"><span class="label">Screenshot 05</span><a href="screenshots/05.png" download>screenshots/05.png</a> <span class="badge">2.7 MB</span></div>
-<div class="item"><span class="label">Screenshot 06</span><a href="screenshots/06.png" download>screenshots/06.png</a> <span class="badge">4.2 MB</span></div>
+<section>
+<h2>Release Notes <span class="char-count">(266/500)</span> <button class="copy-btn" onclick="copy('release-notes-text')">Copy</button></h2>
+<div id="release-notes-text" class="text-block">First release of Foldly!
+• 140+ origami, kirigami and 3D origami guides, all open from the start
+• Step-by-step folding screen with video clips on 50+ models
+• Mini Fold paper puzzle game
+• Take photos of your finished folds and keep them in Creations
+• 12 languages</div>
 </section>
-<section><h2>🔒 Data Safety & Permissions</h2><div class="item"><span class="label">Data Safety CSV</span><a href="data_safety.csv" download>data_safety.csv</a> <span class="badge">175 KB</span> <span class="badge">Import Play Console</span></div>
-<div class="item"><span class="label">Data Safety (giải thích)</span><a href="data_safety.md">data_safety.md</a> <span class="badge">4 KB</span></div>
-<div class="item"><span class="label">Permissions Declarations</span><a href="permissions_declarations.md">permissions_declarations.md</a> <span class="badge">3 KB</span></div>
+<section>
+<h2>Icon 512x512</h2>
+<table>
+<tr><td>Icon</td><td><img src="icon_512.png" class="preview" alt="icon"> <a href="icon_512.png" download>icon_512.png</a> <span class="badge file">231 KB</span></td></tr>
+</table>
+</section>
+<section>
+<h2>Feature Graphic 1024x500</h2>
+<img src="feature_graphic.png" class="feature-img" alt="Feature graphic">
+<p style="margin-top:6px;"><a href="feature_graphic.png" download>feature_graphic.png</a> <span class="badge file">399 KB</span></p>
+</section>
+<section>
+<h2>Screenshots (Phone)</h2>
+<div class="screenshots">
+  <a href="screenshots/01.png" download><img src="screenshots/01.png" alt="Screenshot 01"></a>
+  <a href="screenshots/02.png" download><img src="screenshots/02.png" alt="Screenshot 02"></a>
+  <a href="screenshots/03.png" download><img src="screenshots/03.png" alt="Screenshot 03"></a>
+  <a href="screenshots/04.png" download><img src="screenshots/04.png" alt="Screenshot 04"></a>
+  <a href="screenshots/05.png" download><img src="screenshots/05.png" alt="Screenshot 05"></a>
+  <a href="screenshots/06.png" download><img src="screenshots/06.png" alt="Screenshot 06"></a>
+</div>
+</section>
+<section>
+<h2>Downloads <span class="badge build">BUILD</span></h2>
+<table>
+<tr><td>APK debug</td><td><a href="downloads/app-prod-debug.apk" download>downloads/app-prod-debug.apk</a> <span class="badge file">69.0 MB</span></td></tr>
+<tr><td>AAB release</td><td><a href="downloads/app-prod-release.aab" download>downloads/app-prod-release.aab</a> <span class="badge file">37.4 MB</span></td></tr>
+<tr><td>APK release</td><td><a href="downloads/app-prod-release.apk" download>downloads/app-prod-release.apk</a> <span class="badge file">30.4 MB</span></td></tr>
+</table>
+</section>
+<section>
+<h2>Legal <span class="badge live">LIVE</span></h2>
+<table>
+<tr><td>Privacy Policy</td><td><a href="privacy/">privacy/</a> <span class="badge live">PASS</span></td></tr>
+<tr><td>Terms of Service</td><td><a href="terms/">terms/</a> <span class="badge live">PASS</span></td></tr>
+<tr><td>Privacy (source)</td><td><a href="privacy.md">privacy.md</a> <span class="badge file">9 KB</span></td></tr>
+<tr><td>Terms (source)</td><td><a href="terms.md">terms.md</a> <span class="badge file">5 KB</span></td></tr>
+</table>
+</section>
+<section>
+<h2>Data Safety</h2>
+<table>
+<tr><td>Import file</td><td><a href="data_safety.csv" download>data_safety.csv</a> <span class="badge file">Import Play Console</span></td></tr>
+<tr><td>Giải thích</td><td><a href="data_safety.md">data_safety.md</a></td></tr>
+<tr><td>Permissions</td><td><a href="permissions_declarations.md">permissions_declarations.md</a></td></tr>
+</table>
+</section>
+<section>
+<h2>Guides &amp; Sources</h2>
+<table>
+<tr><td>ASO Guide</td><td><a href="aso-guide.md">aso-guide.md</a></td></tr>
+<tr><td>Landing Page</td><td><a href="landing.html">landing.html</a></td></tr>
+<tr><td>Compliance Census</td><td><a href="compliance_census.md">compliance_census.md</a></td></tr>
+<tr><td>Review Notes</td><td><a href="review_notes.md">review_notes.md</a></td></tr>
+
+</table>
+</section>
+<section style="background:transparent;border:none;padding:10px 0;text-align:center;box-shadow:none;">
+<p style="color:var(--sub);font-size:.75rem;">App-Factory &middot; 2026-11-07</p>
 </section>
 
-<footer>App-Factory · 2026-11-06</footer>
+<script>
+
+function copy(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent.trim()).then(function() {
+    var btn = el.parentElement.querySelector('.copy-btn');
+    if (btn) { var orig = btn.textContent; btn.textContent = 'Copied!'; setTimeout(function(){ btn.textContent = orig; }, 1500); }
+  });
+}
+
+</script>
 </body>
 </html>
